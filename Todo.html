@@ -1,0 +1,164 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ToDo-App</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<style>
+
+.text-danger{
+
+  float:right;
+  cursor: pointer;
+  padding-left: 10px;
+  font-size: 20px;
+}
+.text-danger:hover{
+
+  font-weight: bolder;
+  font-size: 22px;
+}
+.btn1{
+  float: right;
+}
+
+.placeHolder{
+
+border-color: red !important;
+
+}
+</style>
+</head>
+<body>
+    
+    <div class="container">
+        <h1 class="text-center block">TODO-APP</h1>
+    </div>
+
+    <div class="container">
+
+        <form class="text-center">
+          
+            <div class="form-group">
+              <label for="exampleInputPassword1">ENTER YOUR ACTIVITY</label>
+              <input type="text" class="form-control" id="activity">
+            </div>
+            <div id="btns">
+            <button  onclick="return getActivites()" class="btn btn-primary">Save</button>
+
+          </div>
+          </form>
+    </div>
+<div class="container text-center">
+    <ul class="list-group" id="activityItems">
+       
+      
+      </ul>
+
+
+</div>
+
+
+<script>
+
+
+var editA;
+function displayActivities(){
+
+  var clearUl=document.getElementById("activityItems");
+    clearUl.innerHTML="";
+    for(i=0; i< activities.length; i++){
+  
+    var node = document.createElement("LI");
+    node.className="list-group-item";
+    var span=document.createElement("span");
+    span.className="text-danger";
+    span.innerHTML="&cross;";
+    span.id=i;
+    span.setAttribute('onclick','return deleteActivity(this.id)');
+    var editButton=document.createElement("button");
+    editButton.className="btn1 btn btn-outline-success btn-sm";
+    editButton.innerHTML="EDIT";
+    editButton.id=i;
+    editButton.setAttribute('onclick','return editActivities(this.id)');
+    var textnode = document.createTextNode(activities[i]) ;
+    node.appendChild(textnode);
+    node.appendChild(span);
+    node.appendChild(editButton);
+    document.getElementById("activityItems").appendChild(node);
+
+}
+  }
+
+var activities=[];
+
+
+function getActivites(){
+
+
+  
+if(document.getElementById("activity").value.trim()==""){
+
+  alert("Please Enter Something");
+}
+
+else{
+    if(editA==null){
+
+        var input=document.getElementById("activity").value;
+        activities.push(input);
+        document.getElementById("activity").value='';
+        displayActivities();
+        return false;
+      
+      }
+   
+      else{
+activities[editA]=document.getElementById("activity").value;
+
+ editA=undefined;
+ delete editA;
+ document.getElementById("activity").removeAttribute("class");
+ document.getElementById("activity").setAttribute("class","form-control");
+ document.getElementById("activity").value="";
+
+displayActivities();
+
+      }
+}
+return false;
+}
+function deleteActivity(clicked_id){
+      
+        activities.splice(clicked_id,1);
+
+        var clearUl=document.getElementById("activityItems");
+        clearUl.innerHTML="";
+        displayActivities();
+        return false;
+    }
+
+
+function editActivities(clicked_id){
+
+
+
+ editA=clicked_id;
+  document.getElementById("activity").value='';
+document.getElementById("activity").value=activities[clicked_id];
+
+document.getElementById("activity").setAttribute("class","form-control placeHolder")
+
+displayActivities();
+
+return false;
+
+}
+
+
+</script>
+
+</body>
+</html>
